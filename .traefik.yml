@@ -1,0 +1,15 @@
+displayName: "Environment variable mapping to header"
+type: middleware
+
+import: github.com/nilskohrs/environmentheader
+
+summary: "Map environment variables to headers"
+
+testData:
+  requestHeaders:
+    - header: Request-Header
+      env: ENV_REQUEST_HEADER
+  responseHeaders:
+    - header: Response-Header
+      env: ENV_REQUEST_HEADER
+
