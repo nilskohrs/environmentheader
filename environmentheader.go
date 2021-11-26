@@ -31,6 +31,11 @@ type environmentHeaderPlugin struct {
 	next            http.Handler
 }
 
+// CreateConfig creates the default plugin configuration.
+func CreateConfig() *Config {
+	return &Config{}
+}
+
 // New creates a new EnvironmentHeader plugin.
 func New(ctx context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
 	requestHeaders := make([]RequestHeader, 0, len(config.RequestHeaders))
