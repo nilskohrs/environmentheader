@@ -15,7 +15,7 @@ experimental:
   plugins:
     environmentheader:
       moduleName: "github.com/nilskohrs/environmentheader"
-      version: "v0.1.2"
+      version: "v0.1.4"
 ```
 
 ### Dynamic
@@ -28,8 +28,9 @@ http:
         requestHeaders:
           - header: X-Foo-Header
             env: SECRET_REQUEST_ENV
+            optional: true
         responseHeaders:
           - header: X-Bar-Header
             env: SECRET_RESPONSE_HEADER
-
+            optional: false
 ```
