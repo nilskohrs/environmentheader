@@ -10,25 +10,20 @@ import (
 
 // Config the plugin configuration.
 type Config struct {
-	RequestHeaders  []RequestHeader  `json:"requestHeaders,omitempty"`
-	ResponseHeaders []ResponseHeader `json:"responseHeaders,omitempty"`
+	RequestHeaders  []HeaderMapping `json:"requestHeaders,omitempty"`
+	ResponseHeaders []HeaderMapping `json:"responseHeaders,omitempty"`
 }
 
-// RequestHeader is part of the plugin configuration.
-type RequestHeader struct {
-	Header string `json:"header,omitempty"`
-	Env    string `json:"env,omitempty"`
-}
-
-// ResponseHeader is part of the plugin configuration.
-type ResponseHeader struct {
-	Header string `json:"header,omitempty"`
-	Env    string `json:"env,omitempty"`
+// HeaderMapping is part of the plugin configuration.
+type HeaderMapping struct {
+	Header   string `json:"header,omitempty"`
+	Env      string `json:"env,omitempty"`
+	Optional bool   `json:"optional,omitempty"`
 }
 
 type environmentHeaderPlugin struct {
-	RequestHeaders  []RequestHeader
-	ResponseHeaders []ResponseHeader
+	RequestHeaders  []HeaderMapping
+	ResponseHeaders []HeaderMapping
 	next            http.Handler
 }
 
@@ -39,7 +34,7 @@ func CreateConfig() *Config {
 
 // New creates a new EnvironmentHeader plugin.
 func New(ctx context.Context, next http.Handler, config *Config, name string) (http.Handler, error) {
-	requestHeaders := make([]RequestHeader, 0, len(config.RequestHeaders))
+	requestHeaders := make([]HeaderMapping, 0, len(config.RequestHeaders))
 	for _, requestHeader := range config.RequestHeaders {
 		if len(requestHeader.Header) == 0 {
 			return nil, fmt.Errorf("missing header parameter on a request header mapping")
@@ -49,12 +44,12 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 		}
 		environmentVar := requestHeader.Env
 		requestHeader.Env = os.Getenv(environmentVar)
-		if len(requestHeader.Env) == 0 {
+		if !requestHeader.Optional && len(requestHeader.Env) == 0 {
 			return nil, fmt.Errorf("environment variable `%s` is not set for request header `%s`", environmentVar, requestHeader.Header)
 		}
 		requestHeaders = append(requestHeaders, requestHeader)
 	}
-	responseHeaders := make([]ResponseHeader, 0, len(config.ResponseHeaders))
+	responseHeaders := make([]HeaderMapping, 0, len(config.ResponseHeaders))
 	for _, responseHeader := range config.ResponseHeaders {
 		if len(responseHeader.Header) == 0 {
 			return nil, fmt.Errorf("missing header parameter on a response header mapping")
@@ -64,7 +59,7 @@ func New(ctx context.Context, next http.Handler, config *Config, name string) (h
 		}
 		environmentVar := responseHeader.Env
 		responseHeader.Env = os.Getenv(environmentVar)
-		if len(responseHeader.Env) == 0 {
+		if !responseHeader.Optional && len(responseHeader.Env) == 0 {
 			return nil, fmt.Errorf("environment variable `%s` is not set for response header `%s`", environmentVar, responseHeader.Header)
 		}
 		responseHeaders = append(responseHeaders, responseHeader)
