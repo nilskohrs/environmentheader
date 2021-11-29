@@ -21,7 +21,7 @@ func TestAddingRequestHeader(t *testing.T) {
 	}
 
 	cfg := environmentheader.CreateConfig()
-	cfg.RequestHeaders = append(cfg.RequestHeaders, environmentheader.RequestHeader{
+	cfg.RequestHeaders = append(cfg.RequestHeaders, environmentheader.HeaderMapping{
 		Header: header,
 		Env:    envVar,
 	})
@@ -56,7 +56,7 @@ func TestAddingResponseHeader(t *testing.T) {
 	}
 
 	cfg := environmentheader.CreateConfig()
-	cfg.ResponseHeaders = append(cfg.ResponseHeaders, environmentheader.ResponseHeader{
+	cfg.ResponseHeaders = append(cfg.ResponseHeaders, environmentheader.HeaderMapping{
 		Header: header,
 		Env:    envVar,
 	})
