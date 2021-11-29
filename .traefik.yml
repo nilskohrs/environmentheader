@@ -8,8 +8,8 @@ summary: "Map environment variables to headers"
 testData:
   requestHeaders:
     - header: Request-Header
-      env: ENV_REQUEST_HEADER
+      env: USER
   responseHeaders:
     - header: Response-Header
-      env: ENV_REQUEST_HEADER
+      env: PWD
 
