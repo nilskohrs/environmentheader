@@ -59,5 +59,8 @@ func (c *environmentHeaderPlugin) ServeHTTP(rw http.ResponseWriter, req *http.Re
 	for _, requestHeader := range c.RequestHeaders {
 		req.Header.Add(requestHeader.Header, requestHeader.Env)
 	}
+	for _, responseHeader := range c.ResponseHeaders {
+		rw.Header().Add(responseHeader.Header, responseHeader.Env)
+	}
 	c.next.ServeHTTP(rw, req)
 }
