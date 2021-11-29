@@ -1,4 +1,4 @@
-displayName: "Environment variable mapping to header"
+displayName: "Environment Headers"
 type: middleware
 
 import: github.com/nilskohrs/environmentheader
