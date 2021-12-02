@@ -11,7 +11,7 @@ import (
 )
 
 func TestAddingRequestHeader(t *testing.T) {
-	value := "FOO"
+	value := "FOO BAR"
 	header := "Test-Header"
 	envVar := "TEST_ENV"
 
