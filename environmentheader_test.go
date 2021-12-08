@@ -4,7 +4,6 @@ import (
 	"context"
 	"net/http"
 	"net/http/httptest"
-	"os"
 	"testing"
 
 	"github.com/nilskohrs/environmentheader"
@@ -47,10 +46,7 @@ func TestAddingResponseHeader(t *testing.T) {
 	header := "Test-Header"
 	envVar := "TEST_ENV"
 
-	err := os.Setenv(envVar, value)
-	if err != nil {
-		t.Fatal(err)
-	}
+	t.Setenv(envVar, value)
 
 	cfg := environmentheader.CreateConfig()
 	cfg.ResponseHeaders = append(cfg.ResponseHeaders, environmentheader.HeaderMapping{
