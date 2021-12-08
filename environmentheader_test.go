@@ -15,10 +15,7 @@ func TestAddingRequestHeader(t *testing.T) {
 	header := "Test-Header"
 	envVar := "TEST_ENV"
 
-	err := os.Setenv(envVar, value)
-	if err != nil {
-		t.Fatal(err)
-	}
+	t.Setenv(envVar, value)
 
 	cfg := environmentheader.CreateConfig()
 	cfg.RequestHeaders = append(cfg.RequestHeaders, environmentheader.HeaderMapping{
